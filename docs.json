@@ -1,122 +1,297 @@
 {
-    "$schema": "https://mintlify.com/docs.json",
-    "colors": {
-        "dark": "#15803D",
-        "light": "#07C983",
-        "primary": "#16A34A"
-    },
-    "contextual": {
-        "options": [
-            "copy",
-            "view",
-            "chatgpt",
-            "claude",
-            "perplexity",
-            "mcp",
-            "cursor",
-            "vscode"
-        ]
-    },
-    "favicon": "/favicon.svg",
-    "footer": {
-        "socials": {
-            "github": "https://github.com/mintlify",
-            "linkedin": "https://linkedin.com/company/mintlify",
-            "x": "https://x.com/mintlify"
-        }
-    },
-    "logo": {
-        "dark": "/logo/dark.svg",
-        "light": "/logo/light.svg"
-    },
-    "name": "Ordergroove Developer Documentation",
-    "navbar": {
-        "links": [
-            {
-                "href": "mailto:hi@mintlify.com",
-                "label": "Support"
-            }
-        ],
-        "primary": {
-            "href": "https://dashboard.mintlify.com",
-            "label": "Dashboard",
-            "type": "button"
-        }
-    },
-    "navigation": {
-        "global": {
-            "anchors": [
-                {
-                    "anchor": "Documentation",
-                    "href": "https://mintlify.com/docs",
-                    "icon": "book-open-cover"
-                },
-                {
-                    "anchor": "Blog",
-                    "href": "https://mintlify.com/blog",
-                    "icon": "newspaper"
-                }
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "aspen",
+  "name": "Reference",
+  "colors": {
+    "primary": "#23ce6b",
+    "light": "#23ce6b",
+    "dark": "#23ce6b"
+  },
+  "favicon": "/ee510bc0f7c463612c51d58e576398fdb238ce0348a94eafa28cc22d29e08a0f-favicon.png",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Platform Overview",
+            "pages": [
+              "docs/developer-fundamentals",
+              {
+                "group": "Platform Overview",
+                "pages": [
+                  "docs/developer-fundamentals",
+                  "docs/landscape-map",
+                  "docs/data-model-at-a-glance",
+                  "docs/subscription-manager-tagging-and-authentication",
+                  "docs/customer-and-payment-updates"
+                ]
+              },
+              {
+                "group": "Installation & Setup",
+                "pages": [
+                  "docs/sandbox-store",
+                  "docs/integrating-with-a-custom-platform-1",
+                  {
+                    "group": "Install Ordergroove on an Online Store 2.0 theme",
+                    "pages": [
+                      "docs/use-ordergroove-with-online-store-20",
+                      "docs/installing-ordergroove-with-app-embed"
+                    ]
+                  },
+                  "docs/removing-ordergroove-code-from-your-shopify-theme"
+                ]
+              },
+              "docs/general-faq"
             ]
-        },
-        "tabs": [
-            {
-                "groups": [
-                    {
-                        "group": "Getting started",
-                        "pages": [
-                            "index",
-                            "quickstart",
-                            "development"
-                        ]
-                    },
-                    {
-                        "group": "Customization",
-                        "pages": [
-                            "essentials/settings",
-                            "essentials/navigation"
-                        ]
-                    },
-                    {
-                        "group": "Writing content",
-                        "pages": [
-                            "essentials/markdown",
-                            "essentials/code",
-                            "essentials/images",
-                            "essentials/reusable-snippets"
-                        ]
-                    },
-                    {
-                        "group": "AI tools",
-                        "pages": [
-                            "ai-tools/cursor",
-                            "ai-tools/claude-code",
-                            "ai-tools/windsurf"
-                        ]
-                    }
-                ],
-                "tab": "Guides"
-            },
-            {
-                "groups": [
-                    {
-                        "group": "API documentation",
-                        "pages": [
-                            "api-reference/introduction"
-                        ]
-                    },
-                    {
-                        "group": "Endpoint examples",
-                        "pages": [
-                            "api-reference/endpoint/get",
-                            "api-reference/endpoint/create",
-                            "api-reference/endpoint/delete",
-                            "api-reference/endpoint/webhook"
-                        ]
-                    }
-                ],
-                "tab": "API reference"
-            }
+          },
+          {
+            "group": "Enrollment",
+            "pages": [
+              "docs/getting-started",
+              {
+                "group": "Enrollment",
+                "pages": [
+                  "docs/getting-started",
+                  {
+                    "group": "Core Concepts",
+                    "pages": [
+                      "docs/offer-tagging",
+                      "docs/tagging-the-product-details-page-pdp",
+                      "docs/shopify-cart-opt-in-tagging",
+                      "docs/subscription-creation-via-purchase-post"
+                    ]
+                  },
+                  {
+                    "group": "Add a subscription to cart",
+                    "pages": [
+                      "docs/modify-a-subscription-from-checkout-flow",
+                      "docs/troubleshooting-cart-offers",
+                      "docs/offer-code-elements",
+                      "docs/domain-objects",
+                      "docs/helper-methods"
+                    ]
+                  },
+                  {
+                    "group": "Display & UI Customization",
+                    "pages": [
+                      "docs/showing-discounted-price-in-shopify",
+                      "docs/customizing-the-initial-offer-incentive-ioi-using-shopify-functions",
+                      "docs/real-time-stock-update",
+                      "docs/quickview-offers",
+                      "docs/tracking-affiliate-codes-on-recurring-orders"
+                    ]
+                  },
+                  {
+                    "group": "Advanced Enrollment",
+                    "pages": [
+                      "docs/advanced-offer-customizations-faq",
+                      "docs/modify-a-subscription-from-email-and-sms",
+                      "docs/first-order-place-date-control-for-shopify-merchants",
+                      "docs/free-shipping-on-initial-orders-with-shopify-scripts"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Subscription Manager",
+                "pages": [
+                  "docs/introduction-to-subscription-manager",
+                  {
+                    "group": "Introduction to Subscription Manager",
+                    "pages": [
+                      "docs/getting-started-1",
+                      "docs/tour-of-subscription-manager-v25",
+                      "docs/intro-to-v25-for-developers-transitioning-from-v0",
+                      "docs/subscription-manager-file-descriptions",
+                      "docs/loading-the-subscription-manager-inside-a-single-page-app"
+                    ]
+                  },
+                  {
+                    "group": "Developing for Subscription Manager Overview",
+                    "pages": [
+                      "docs/subscription-manager-overview",
+                      "docs/convert-your-customersaccount-page-to-support-online-store-20",
+                      "docs/tagging-the-subscription-manager-on-shopify",
+                      "docs/integrating-external-apis-in-the-subscription-manager",
+                      "docs/call-rest-apis-from-within-subscription-manager",
+                      "docs/sm-template-customization-tracking",
+                      "docs/understanding-subscription-manager-custom-elements",
+                      "docs/edit-code-with-the-advanced-editor",
+                      "docs/subscription-manager-theme-editor-overview",
+                      "docs/subscription-manager-development-guide",
+                      "docs/customizing-subscription-manager-sections-on-shopify",
+                      "docs/refreshing-data-in-the-subscription-manager",
+                      "docs/objects",
+                      "docs/object-reference",
+                      "docs/translations",
+                      "docs/subscription-manager-local-development",
+                      "docs/debugging-with-redux",
+                      "docs/working-with-dates-in-the-subscription-manager"
+                    ]
+                  },
+                  {
+                    "group": "Common Customizations",
+                    "pages": [
+                      "docs/customizing-calendars-and-dates-in-v25",
+                      "docs/adding-a-scrollbar-to-inactive-subscriptions-in-the-subscription-manager",
+                      "docs/one-time-sku-swap-configuration-in-the-subscription-manager",
+                      "docs/dynamic-shipping-restrictions-in-the-subscription-manager",
+                      "docs/limiting-future-dates-in-the-change-date-calendar",
+                      "docs/adding-a-cancel-button-to-modals",
+                      "docs/implementing-country-state-dropdown-in-subscription-manager-themes",
+                      "docs/modify-the-change-billing-process-button",
+                      "docs/enabling-payment-updates-for-shopify-new-accounts"
+                    ]
+                  },
+                  "docs/subscription-manager-templates-changelog"
+                ]
+              },
+              {
+                "group": "Legacy Subscription Manager v0 Components & Containers",
+                "pages": [
+                  "docs/subscription-manager-components-containers",
+                  "docs/subscription-manager-templates",
+                  {
+                    "group": "Orders Unsent Section",
+                    "pages": [
+                      "docs/orders-unsent-section",
+                      "docs/skip-order",
+                      "docs/send-now",
+                      "docs/change-date"
+                    ]
+                  },
+                  "docs/orders-processing-section",
+                  "docs/inactive-subscriptions-section"
+                ]
+              },
+              {
+                "group": "Order Processing & Placement",
+                "pages": [
+                  "docs/order-generation",
+                  {
+                    "group": "Order Generation",
+                    "pages": [
+                      "docs/recurring-order-placement"
+                    ]
+                  },
+                  {
+                    "group": "Upsell & One-Click Actions",
+                    "pages": [
+                      "docs/getting-started-2",
+                      "docs/add-a-one-time-item-to-an-upcoming-order",
+                      "docs/1-click-actions-in-emails",
+                      "docs/using-webhooks-for-1-click-actions"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Payments",
+                "pages": [
+                  "docs/configuring-paypal"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Product Catalog",
+            "pages": [
+              "docs/integrating-with-a-custom-platform",
+              {
+                "group": "Product Catalog",
+                "pages": [
+                  "docs/integrating-with-a-custom-platform"
+                ]
+              },
+              {
+                "group": "Data Sync & Pipelines",
+                "pages": [
+                  "docs/sync-ordergroove-data-into-internal-systems",
+                  {
+                    "group": "Sync Objects",
+                    "pages": [
+                      "docs/implement-custom-data-pipelines",
+                      "docs/using-prebuilt-connectors",
+                      "docs/sftp-file-drops"
+                    ]
+                  },
+                  "docs/sync-events"
+                ]
+              },
+              {
+                "group": "Webhooks & APIs",
+                "pages": [
+                  "docs/hmac-and-aes-authentication",
+                  {
+                    "group": "Webhooks overview (Legacy)",
+                    "pages": [
+                      "docs/via-webhooks",
+                      "docs/configure-webhooks-via-api",
+                      "docs/expiring-or-termed-subscriptions-using-webhooks"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Digital Subscriptions",
+            "pages": [
+              "docs/digital-subscriptions",
+              {
+                "group": "Digital Subscriptions",
+                "pages": [
+                  "docs/digital-subscriptions",
+                  "docs/migrating-digital-subscriptions"
+                ]
+              },
+              {
+                "group": "Rotating Subscriptions",
+                "pages": [
+                  "docs/rotating-subscriptions",
+                  "docs/ordinal-based-rotating-products",
+                  "docs/time-window-based-rotating-products"
+                ]
+              },
+              {
+                "group": "Prepaid Subscriptions",
+                "pages": [
+                  "docs/how-to-manage-prepaid-renewal-behaviors"
+                ]
+              },
+              "docs/curation-subscriptions-rotating-box-or-club",
+              "docs/guided-selling",
+              {
+                "group": "Bundle Subscriptions",
+                "pages": [
+                  "docs/bundle-subscriptions",
+                  "docs/configuring-bundles",
+                  "docs/box-subscription-creation-on-shopify",
+                  "docs/bundle-api-components",
+                  {
+                    "group": "Build Your Own Box Subscriptions (Legacy)",
+                    "pages": [
+                      "docs/build-your-own-box-subscriptions",
+                      "docs/build-your-own-box-subscriptions-on-shopify"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Migrate my data to Ordergroove",
+            "pages": [
+              "docs/program-migration",
+              "docs/view-self-serve-migration-guide",
+              "docs/self-serve-migration-guide-for-recharge",
+              "docs/staged-migrations"
+            ]
+          }
         ]
-    },
-    "theme": "mint"
+      }
+    ]
+  },
+  "logo": "/images/6569eeaca64d5940a1ed6368578c3ab19fbf6af30bce973b8eaa377ba656021d-short_black_bg.png"
 }

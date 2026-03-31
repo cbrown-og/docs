@@ -1,0 +1,78 @@
+---
+title: "Preserve Analytics Tracking while Customizing Subscription Manager Templates"
+---
+
+1. The Subscription Lifecycle
+2. [Subscription Manager](/docs/subscription-manager)
+3. [Developing for Subscription Manager Overview](/docs/subscription-manager-overview)
+
+If you are making customizations to your Subscription Manager (SM) template, be careful not to remove or change elements that our library code relies on for front-end analytics. Here is a description of how our front-end tracking works so you can avoid making changes that stop tracking certain events.
+
+Note: this guide assumes familiarity with HTML, CSS, and JS.
+
+## DOM elements
+
+The SM watches certain DOM elements to trigger tracking events. Most of these are **click** listeners to trigger a tracking event when a button or link are clicked. Certain events are also triggered when a given element becomes **visible** on screen, e.g. in a multi-step cancel flow. If you move or change the attributes on these elements, these events may no longer be fired.
+
+Below is a list of the CSS selectors the SM watches, as well as what kind of interactions trigger a tracking event. If the element matches any of the selectors for an event, then the tracking event is fired. The selectors are based on the position of the elements that trigger these events in the default v0 and v25 templates. Some events have multiple selectors; if any of these match, the event is fired. The SM will always check every selector listed below; e.g. if you have a v25 template but a button matches a v0 selector, then the tracking event will still be fired.
+
+| Event name                                    | Type                          | CSS selectors (v25)                                                                                                                     | CSS selectors (v0)                                                           |
+| --------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| skuswap\_started                              | click                         | `[data-click-target^=og-sku-swap-dialog]`                                                                                               | `.og-change-product-control > .og-link`                                      |
+| skuswap\_exited                               | click                         | `[id^=og-sku-swap-dialog] :is(.og-dialog-close, .og-dialog-footer button[type="button"])``[id^=og-sku-swap-dialog] [data-dialog-close]` | `dialog[id^="og-change-product"] button[type="reset"]`                       |
+| skuswap\_completed\_swapped                   | click                         | `[id^=og-sku-swap-dialog] button[type="submit"]`                                                                                        | `dialog[id^="og-change-product"] button[name="change_product"]`              |
+| subscriptioncancel\_started                   | click                         | `[data-click-target^=og-cancel-sub-dialog]`                                                                                             | `.og-cancel-subscription-button > .og-link`                                  |
+| subscriptioncancel\_exited                    | click                         | `[id^=og-cancel-sub-dialog] .og-dialog-close``[id^=og-cancel-sub-dialog] [data-dialog-close]`                                           | `.og-cancel-subscription-button button[type="reset"]`                        |
+| subscriptioncancel\_skuswap\_shown            | visibility                    | `[id^=og-cancel-sub-dialog] [data-step="swap"]`                                                                                         |                                                                              |
+| subscriptioncancel\_completed\_saved\_swapped | click                         | `[id^=og-cancel-sub-dialog] [data-step="swap"] button[type="submit"]`                                                                   |                                                                              |
+| subscriptioncancel\_skuswap\_backedout        | click                         | `[id^=og-cancel-sub-dialog] [data-step="swap"] button[data-back-button]`                                                                |                                                                              |
+| subscriptioncancel\_skip\_shown               | visibility                    | `[id^=og-cancel-sub-dialog] [data-step="skip"]`                                                                                         |                                                                              |
+| subscriptioncancel\_completed\_saved\_skipped | click                         | `[id^=og-cancel-sub-dialog] [data-step="skip"] button[type="submit"]`                                                                   | `.og-cancel-subscription-button button[name="skip_subscription"]`            |
+| subscriptioncancel\_skip\_backedout           | click                         | `[id^=og-cancel-sub-dialog] [data-step="skip"] button[data-back-button]`                                                                |                                                                              |
+| subscriptioncancel\_pause\_shown              | visibility                    | `[id^=og-cancel-sub-dialog] [data-step="pause"]`                                                                                        |                                                                              |
+| subscriptioncancel\_completed\_saved\_paused  | click                         | `[id^=og-cancel-sub-dialog] [data-step="pause"] button[type="submit"]`                                                                  |                                                                              |
+| subscriptioncancel\_pause\_backedout          | click                         | `[id^=og-cancel-sub-dialog] [data-step="pause"] button[data-back-button]`                                                               |                                                                              |
+| subscriptioncancel\_exitsurvey\_shown         | visibility (v25) / click (v0) | `[id^=og-cancel-sub-dialog] [data-step="reason"]`                                                                                       | `.og-cancel-subscription-button button[name="continue_cancel_subscription"]` |
+| subscriptioncancel\_exitsurvey\_backedout     | click                         | `[id^=og-cancel-sub-dialog] [data-step="reason"] button[data-back-button]`                                                              |                                                                              |
+
+## Form actions
+
+Our code also fires certain tracking events from our SM library code when certain forms are submitted. For example, the change\_product form looks like this. This will automatically trigger a handler inside our SM library that will make the appropriate API calls and fire a tracking event.
+
+<CodeGroup>
+  ```bash bash
+  <form
+    action="{{ 'change_product' | action }}"
+    @success="{{ 'SMDialog.close' | js }}"
+    @reset="{{ 'SMDialog.close' | js }}"
+  >
+  ```
+</CodeGroup>
+
+If instead of using the existing SM form elements, you directly make fetch calls from JavaScript, we will be missing these tracking events. To keep the existing tracking events, continue to use our forms.
+
+| Tracking event                          | Form action attribute |
+| --------------------------------------- | --------------------- |
+| subscriptioncancel\_completed\_canceled | cancel\_subscription  |
+
+## Making API calls
+
+If you directly make fetch calls to Ordergroove APIs from your JavaScript code, add the `tracking-source: MSI` header. This allows us to attribute those actions to the SM (as opposed to a customer service agent or other processes).
+
+## Verifying that tracking is working
+
+If you want to check that events are being fired, use your browser's dev tools and look for requests to [https://staging.collect.ordergroove.com.](https://staging.collect.ordergroove.com.) You can see the event that was fired in the request.
+
+Note: this API endpoint is not considered to be public and may have breaking changes at any time. Do not call this endpoint directly.
+
+## Further customization
+
+If you want additional control over when and where tracking events are fired, reach out to your Ordergroove representative. We don’t currently expose any JS APIs to directly fire tracking events, but are gathering feedback to guide our future roadmap.
+
+If you find that a tracking event has gone missing after making SM changes, reach out to your Ordergroove representative for assistance.
+
+***
+
+[Calling Ordergroove’s REST APIs from within Subscription Manager](/docs/call-rest-apis-from-within-subscription-manager)
+
+[Understanding Subscription Manager Custom Elements](/docs/understanding-subscription-manager-custom-elements)

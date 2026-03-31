@@ -1,0 +1,98 @@
+---
+title: "Product Feed"
+---
+
+1. Data & Integrations
+2. [Product Catalog](/docs/product-catalog-1)
+
+The Product Feed is a file that is transmitted via SFTP to our platform on a recurring basis, to allow us to keep synchronized with your product information. This feed should contain all products, regardless of whether they are eligible for subscriptions or not. We check for the existence of these files every 30 minutes, so you can provide a new copy as often as once every 30 minutes.
+
+If the product feed is not sent continuously throughout the day it is highly recommended that the product feed run prior to order placement run-time, in order to prevent any orders from being rejected for out of stock issues.
+
+***
+
+## Requirements
+
+The product feed should be created with the following format:
+
+Filename: \<MERCHANT\_ID>.Products.xml Drop site location: \<SFTP\_SITE>
+
+<Warning>
+  ### Note
+
+  Any applicable field containing special characters (e.g. &, trademark symbols, accents, etc.) must be wrapped in CDATA. Best practice is to always wrap product names and category names in CDATA at a minimum.
+
+  Fields labeled "Optional" should be excluded from the file if they do not contain a specific value, as we will attempt to validate them if they are included. Example: if not setting an "in\_stock" boolean value, please remove \<in\_stock>\</in\_stock> tagging entirely vs. adding empty tags or using self-closing XML tags eg \<in\_stock/>.
+</Warning>
+
+***
+
+## Example
+
+<CodeGroup>
+  ```bash bash
+  <products>
+  ...
+  <product>
+    <name><![CDATA[Product XYZ]]></name>
+    <product_id>AB4483902</product_id>
+    <sku>45987234980</sku>
+    <groups> // These fields are optional
+      <group type="sku_swap"><![CDATA[Product Group A]]></group>
+      <group type="incentive"><![CDATA[Incentive Group A]]></group>
+    </groups>
+    <price>19.99</price>
+    <details_url>http://www.merchanturl.com/details/product.com</details_url>
+    <image_url>https://www.merchanturl.com/images/product.jpg</image_url>
+    <autoship_eligible>1</autoship_eligible> //Optional
+    <in_stock>1</in_stock>
+    <discontinued>0</discontinued> //Optional
+    <extra_data> //Optional
+      <field key="variant_name">Size X</field>
+    </extra_data>
+    <relationships> //These fields are optional
+      <relationship>
+        <name>discontinued_replacement</name>
+          <related>
+            <product_id>12</product_id>
+          </related>
+        </relationship>
+      </relationships>
+    <every>6</every> //Optional
+    <every_period>2</every_period> //Optional
+  </product>
+  ...
+  </products>
+  ```
+</CodeGroup>
+
+***
+
+## Field Definition
+
+|                              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                               |                                                                                                                                                                                                                       |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Field                        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Data Type                     | Validation                                                                                                                                                                                                            |
+| name                         | The name of the product                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | String, up to 1024 characters |                                                                                                                                                                                                                       |
+| product\_id                  | The unique identifier of the product in your database                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | String, up to 64 characters   |                                                                                                                                                                                                                       |
+| sku                          | The product's SKU                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | String, up to 64 characters   |                                                                                                                                                                                                                       |
+| groups(optional)             | Used for SKU Swap and Incentives. All products assigned to the same group will be swappable between each other                                                                                                                                                                                                                                                                                                                                                                                                               | String, up to 64 characters   |                                                                                                                                                                                                                       |
+| price                        | The price of the product                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Decimal up to 99999999.99     | Must be a decimal (not wrapped in quotation marks), must have two digits after decimal point. This should not be set to anything other than what the customer should be charged (shouldn't change to $0, for example) |
+| details\_url                 | Fully qualified URL of the product details page                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | String, up to 400 characters  |                                                                                                                                                                                                                       |
+| image\_url                   | Fully qualified URL of the product's image file                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | String, up to 400 characters  | Note: Must be HTTPS                                                                                                                                                                                                   |
+| autoship\_eligible(optional) | A flag that marks the product as eligible for subscription0 = not eligible1 = eligible                                                                                                                                                                                                                                                                                                                                                                                                                                       | Tinyint(1)                    | Must be 1 or 0 as a value, must not be wrapped in quotation marks                                                                                                                                                     |
+| in\_stock                    | A flag that marks the product as available in terms of inventory. 1=In stock, 0=Out of Stock. A product can become temporarily out of stock, which will temporarily stop orders being placed with that product. Additionally, no checkout flow offers will be served for out of stock products, but impulse upsell offers will be served as the product may come back in stock prior to order placement                                                                                                                      | Tinyint(1)                    | Must be 1 or 0 as a value, must not be wrapped in quotation marks                                                                                                                                                     |
+| discontinued(optional)       | An optional flag that marks the product as no longer available. 0=Not discontinued1=Discontinued. When we receive a discontinued flag, all subscriptions with that product will be cancelled and the customer will be notified via email. If a product is discontinued, it must be ineligible for autoship(autoship\_eligible = 0)out of stock (in\_stock = 0)                                                                                                                                                               | Tinyint(1)                    | Must be 1 or 0 as a value, must not be wrapped in quotation marks. NOTE: In order to discontinue a product it must also be marked as Not Eligible and Out of Stock.                                                   |
+| extra\_data(optional)        | The value to be displayed in the SKU swap dropdown. Optional field - can be used to display a name other than the full product name                                                                                                                                                                                                                                                                                                                                                                                          | String, up to 1024 characters |                                                                                                                                                                                                                       |
+| relationships(optional)      | This is where the related product ID can be defined for discontinued product replacement SKU swap. The relationship name within this node will determine if an e-mail will be triggered. If the relationship name = discontinued\_silent\_replacement, subscribers will NOT be informed of the swap. If the relationship name = discontinued\_replacement, an e-mail will be sent to all subscribers of the product to inform them of the swap. NOTE: The subscriber will only be notified once the swap has been completed. | String, up to 64 characters   |                                                                                                                                                                                                                       |
+| every(optional)              | The number of days, weeks, or months used in order to specify a product-specific default frequency.                                                                                                                                                                                                                                                                                                                                                                                                                          | INT, up to 10 characters      |                                                                                                                                                                                                                       |
+| every\_period(optional)      | The frequency period used in order to specify a product-specific default frequency where:1 = days2 = weeks3 = months4 = years                                                                                                                                                                                                                                                                                                                                                                                                | INT, up to 6 characters       | Example:\<every>4\</every>\<every\_period>2\</every\_period> The above example translates into 4 weeks                                                                                                                |
+| product\_type                | The type of product, default is standard.- standard
+- static price bundle
+- dynamic price bundle                                                                                                                                                                                                                                                                                                                                                                                                                             | String                        | product\_type will always be set to *standard* if nothing is provided. On product creation can be set to a bundle type.**product\_type cannot be changed after product creation**                                     |
+
+***
+
+[Configuring PayPal](/docs/configuring-paypal)
+
+[Data Sync & Pipelines](/docs/data-sync-pipelines)

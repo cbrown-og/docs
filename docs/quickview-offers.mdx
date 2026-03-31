@@ -1,0 +1,47 @@
+---
+title: "Add a subscription offer to quickview, homepage, or other areas of your site"
+---
+
+1. The Subscription Lifecycle
+2. [Enrollment](/docs/enrollment-the-frontend-experience)
+3. [Display & UI Customization](/docs/display-ui-customization)
+
+This doc only applies to Direct Offers on Shopify.
+
+We support offers on quick view, homepage, and other areas of your site where the url does not reflect the product or variant that the user selects by adding the `data-shopify-product-handle` attribute to the offer with the product handle.
+
+### For OS1.0:
+
+Instead of rendering the `ordergroove_offer.liquid` file, add the below code where you want the offer to appear.
+
+<CodeGroup>
+  ```bash bash
+  <og-offer product="{{ product.selected_or_first_available_variant.id }}"
+  data-shopify-product-handle="{{ product.handle }}"
+  location="my-location"></og-offer>
+  ```
+</CodeGroup>
+
+***
+
+### For OS2.0:
+
+Quickview offers requires setting an additional attribute in our og-offer tag which is not present in our Online Store 2.0 Offer block.
+
+As a workaround with an Online Store 2.0 theme, you can create a 'Liquid code' block in the Shopify Customizer through 'Add block' -> 'Liquid code'. Then, in the text box for the Liquid code, please paste the following:
+
+<CodeGroup>
+  ```bash bash
+  <og-offer product="{{ product.selected_or_first_available_variant.id }}"
+  data-shopify-product-handle="{{ product.handle }}"
+  location="my-location"></og-offer>
+  ```
+</CodeGroup>
+
+This will display our offer on your site just like the offer block, and supports quick view. If you change the 'location' name for your offer, you will also need to change it in this block.
+
+***
+
+[Real Time Stock Update](/docs/real-time-stock-update)
+
+[Tracking Affiliate Codes on Recurring Orders](/docs/tracking-affiliate-codes-on-recurring-orders)

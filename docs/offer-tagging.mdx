@@ -1,0 +1,135 @@
+---
+title: "Overview"
+---
+
+1. The Subscription Lifecycle
+2. [Enrollment](/docs/enrollment-the-frontend-experience)
+3. [Core Concepts](/docs/core-concepts)
+
+Offers are javascript injected content that allows a customer to enroll in your subscription program for a particular product. By tagging the HTML elements outlined below, Ordergroove can inject the offers that you build and manage in Ordergroove's Admin tool onto your site.
+
+***
+
+## Defining the Offer Element
+
+The following code will present the default offer for the given product id.
+
+<CodeGroup>
+  ```bash bash
+  <og-offer product="your-product-id"></og-offer>
+  ```
+</CodeGroup>
+
+<Warning>
+  ### Closing Tags
+
+  Custom elements cannot be self-closing because HTML only allows a few elements to be self-closing. Always write a closing tag ().
+</Warning>
+
+Alternatively you can set the product id by using regular js.
+
+HTML
+
+<CodeGroup>
+  ```bash bash
+  <og-offer id="my-dynamic-offer"></og-offer>
+  ```
+</CodeGroup>
+
+JS
+
+<CodeGroup>
+  ```bash bash
+  document.querySelector('#my-dynamic-offer').setAttribute('product','your-product-id')
+  ```
+</CodeGroup>
+
+***
+
+## Location
+
+The location will allow the display of different offers in different locations. (i.e. PDP vs. Cart) The value location can be any string.
+
+Note, development work will be required to add the location portion of the node. **(i.e. location="X")**
+
+Recommended location naming conventions and pages **location="X"**
+
+* PDP (Product Detail Page)
+* Cart (Shopping Cart Page)
+* OR (Order Review Page)
+
+Example:
+
+<CodeGroup>
+  ```bash bash
+  <og-offer product="your-product-id" location="X"></og-offer>
+  ```
+</CodeGroup>
+
+***
+
+## Buy x Subscribe y
+
+If you want to define a product that Ordergroove should create for a subscription that differs from the product tagged as the product within the HTML element, you can define the alternative product directly in the offer.
+
+Example:
+
+<CodeGroup>
+  ```bash bash
+  <og-offer product="x" product-to-subscribe="y"></og-offer>
+  ```
+</CodeGroup>
+
+***
+
+## Product Components
+
+If you would like to offer subscriptions for a bundle product that can have product components defined for the bundle, you can tag those components directly in the offer as they are added by the customer. Bundle components do not have a quantity attribute, so if a customer wishes to receive more than one of a single component product, it needs to be passed multiple times within the og-offer components tag.
+
+Example:
+
+<CodeGroup>
+  ```bash bash
+  <og-offer product="bundle_product_id" product-components="["39458782806076","39458782806076","39406418165820"]"></og-offer>
+  ```
+</CodeGroup>
+
+***
+
+## First Order Place Date
+
+If you would like to define when the customer's first recurring order will place, you can do that directly in the offer.
+
+Example:
+
+<CodeGroup>
+  ```bash bash
+  <og-offer product="your-product-id" first-order-place-date="2022-09-04"></og-offer>
+  ```
+</CodeGroup>
+
+***
+
+## Main.js
+
+The Ordergroove main.js will need to be tagged on all pages where an og-offer div lives. The main.js will be leveraged to load your offer content and styling. Note, the main.js should only be tagged once per page, and can be leveraged to load multiple offers onto a page. The main.js structure will consist of two elements, the frontend static domain, and your Merchant ID. The below-listed static domain will need to be changed between your staging environments to pull in the respective content promoted from Ordergroove. If you do need to request your Merchant ID, please open a Zendesk [ticket](https://help.ordergroove.com/).
+
+Front-end Static Domains: Staging: [https://staging.static.ordergroove.com](https://staging.static.ordergroove.com) Production: [https://static.ordergroove.com](https://static.ordergroove.com)
+
+<CodeGroup>
+  ```bash bash
+  <script type="text/javascript" src="<STATIC_DOMAIN>/<MERCHANT_ID>/main.js"></script>
+  ```
+</CodeGroup>
+
+***
+
+## Additional Resources
+
+Take a look at [How to configure and style your subscription enrollment](https://help.ordergroove.com/hc/en-us/articles/360026386794-How-To-Configure-and-Style-Your-Subscription-Enrollment) in the Knowledge Center for additional help styling and customizing your offers.
+
+***
+
+[Getting started](/docs/getting-started)
+
+[Tagging the Product Details Page (PDP)](/docs/tagging-the-product-details-page-pdp)

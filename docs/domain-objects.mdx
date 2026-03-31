@@ -1,0 +1,56 @@
+---
+title: "Domain Objects"
+---
+
+1. The Subscription Lifecycle
+2. [Enrollment](/docs/enrollment-the-frontend-experience)
+3. [Add a subscription to cart](/docs/modify-a-subscription-from-checkout-flow)
+
+## Frequency
+
+Frequency is the cadence at which orders associated with a given optin are placed. Frequency is a tuple consisting of "every" and "every period". "Every period" may be either days, weeks, months, or years, represented as 1, 2, 3, and 4, respectively. "Every" is a multiple applied to period and may be any positive integer excluding 0. Together, "every" and "every period" are represented as a string separated by an underscore.
+
+**Examples**
+
+| Frequency | Description    |
+| --------- | -------------- |
+| 1\_1      | Every 1 day    |
+| 2\_1      | Every 2 days   |
+| 4\_2      | Every 4 weeks  |
+| 4\_3      | Every 4 months |
+
+***
+
+## List of Frequencies
+
+A list of frequencies is a space-separate list of frequencies. A list of frequencies is represented as a string.
+
+**Examples**
+
+| List of Frequencies | Description                                         |
+| ------------------- | --------------------------------------------------- |
+| 1\_3 2\_3 3\_3      | Every 1 month, every two months, every three months |
+
+***
+
+## List of Product Components (Legacy Bundles)
+
+A list of product components is a space-separated list of products that, together, comprise a single product. One may find this useful for representing bundles or boxes.
+
+**Examples**
+
+| List of Product Components | Description                                                |
+| -------------------------- | ---------------------------------------------------------- |
+| foo bar baz                | The product is comprised of the products foo, bar, and baz |
+
+***
+
+## Offer Type
+
+Offer type refers to the type of user interface element that is displayed for an offer. Offer type is an enumerated string that may be either "radio", "select", or "toggle".
+
+***
+
+[Offer Code Elements](/docs/offer-code-elements)
+
+[Helper Methods](/docs/helper-methods)
